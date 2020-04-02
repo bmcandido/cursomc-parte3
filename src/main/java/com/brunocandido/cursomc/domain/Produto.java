@@ -15,7 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -27,7 +26,7 @@ public class Produto implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	private String descricao;
+	private String nome;
 	private Double preco;
 	private String complemento;
     
@@ -65,7 +64,7 @@ public class Produto implements Serializable {
 	public Produto(Integer id, String descricao, Double preco, String complemento) {
 		super();
 		this.id = id;
-		this.descricao = descricao;
+		this.nome = descricao;
 		this.preco = preco;
 		this.complemento = complemento;
 		// Categoria não foi inicializada porque já foi inicializada dentro da
@@ -90,12 +89,12 @@ public class Produto implements Serializable {
 		this.id = id;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public String getnome() {
+		return nome;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setnome(String descricao) {
+		this.nome = descricao;
 	}
 
 	public Double getPreco() {

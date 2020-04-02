@@ -266,8 +266,8 @@ public class CursomcApplication implements CommandLineRunner { // Acrescentei o 
 
 		// ****************************************************************************************************************
 		// Repository do Iem de PEdido
-		
-		itemPedidoRepository.saveAll(Arrays.asList(ite1,ite2,ite3));
+
+		itemPedidoRepository.saveAll(Arrays.asList(ite1, ite2, ite3));
 
 	}
 
