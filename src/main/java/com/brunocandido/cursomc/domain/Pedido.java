@@ -28,28 +28,35 @@ public class Pedido implements Serializable {
 	private Integer id;
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date instante;
-    
-	
-	//@JsonManagedReference //Dentro da Classe Pagamento eu faço um @JsonBackReference contrapartida a essa anotação
+
+	// @JsonManagedReference //Dentro da Classe Pagamento eu faço um
+	// @JsonBackReference contrapartida a essa anotação
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido") // Quando o Id está em outra classe é usada esta anotação
 																// com estes parametros
 																// Chamado de mapeamento bidirecional 1 para 1
 	private Pagamento pagamento;
+	
+	// Dentro da Classe Cliente é feito o @JsonBackReference seria a contrapartida
+	// do @JsonManagedReference
+	// Esta anotação serve para que o serviço não dê um loop infinito
+	// @JsonManagedReference
+	// Mapeado pois o Cliente pode ver 
 
-	@JsonManagedReference // Dentro da Classe Cliente é feito o @JsonBackReference seria a contrapartida
-							// do @JsonManagedReference
-							// Esta anotação serve para que o serviço não dê um loop infinito
-	//@JsonManagedReference 
+	
+	//o pedido e o Pedido pode enchergar o cliente
+	@JsonManagedReference 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
-	private Cliente cliente; // Mapeado pois o Cliente pode ver o pedido e o Pedido pode enchergar o cliente
+	private Cliente cliente; 
 
 	@ManyToOne
 	@JoinColumn(name = "endereco_entreda_id")
 	private Enderecos enderecoDeEntrega;
+	
+	// Observa na Classe ItemPedidoPrimaryKey que a associação é a junção do id da
+	// Classe mais a classe pedido
 
-	@OneToMany(mappedBy = "id.pedido") // Observa na Classe ItemPedidoPrimaryKey que a associação é a junção do id da
-										// Classe mais a classe pedido
+	@OneToMany(mappedBy = "id.pedido") 
 	private Set<ItemPedido> itens = new HashSet<>();
 
 	public Pedido() {
@@ -62,6 +69,15 @@ public class Pedido implements Serializable {
 		this.instante = instante;
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
+
+	public double getValorTotal() {
+		double soma = 0;
+		for (ItemPedido ip : itens)
+
+			soma = soma + ip.getSubTotal();
+
+		return soma;
 	}
 
 	public Integer getId() {

@@ -36,6 +36,12 @@ public class ItemPedido implements Serializable {
 		this.preco = preco;
 	
 	}
+	
+	//Um metodo quando ele não é vinculado a um campo da tabela ele irá aparecer no Json
+	
+	public double getSubTotal() {
+		return (preco  * quantidade) - desconto;
+	}
     
 	@JsonIgnore
 	public Pedido getPedido() {
