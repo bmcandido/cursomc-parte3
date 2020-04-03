@@ -83,6 +83,7 @@ public class DBService {
 		Categoria c3 = new Categoria(null, "Camisas Polo");
 		Categoria c4 = new Categoria(null, "Calças Djeans");
 		Categoria c5 = new Categoria(null, "Bermudas");
+		//Categoria c6 = new Categoria(null, "Teste");
 
 		// ****************************************************************************************************************
 		// Dominio Produtos
