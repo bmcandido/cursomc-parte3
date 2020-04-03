@@ -2,7 +2,6 @@ package com.brunocandido.cursomc.domain;
 
 import java.io.Serializable;
 
-
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
@@ -11,17 +10,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class ItemPedido implements Serializable {
 
-
 	private static final long serialVersionUID = 1L;
-	
-	@JsonIgnore //Jason vai ignorar esta marcação
-	@EmbeddedId //Significa que minha chave é dupla e esta relacionada em no ID da outra classe
+
+	@JsonIgnore // Jason vai ignorar esta marcação
+	@EmbeddedId // Significa que minha chave é dupla e esta relacionada em no ID da outra classe
 	private ItemPedidoPrimaryKey id = new ItemPedidoPrimaryKey();
 	private double desconto;
 	private double quantidade;
 	private double preco;
-
-
 
 	public ItemPedido() {
 
@@ -34,25 +30,33 @@ public class ItemPedido implements Serializable {
 		this.desconto = desconto;
 		this.quantidade = quantidade;
 		this.preco = preco;
-	
+
 	}
-	
-	//Um metodo quando ele não é vinculado a um campo da tabela ele irá aparecer no Json
-	
+
+	// Um metodo quando ele não é vinculado a um campo da tabela ele irá aparecer no
+	// Json
+
 	public double getSubTotal() {
-		return (preco  * quantidade) - desconto;
+		return (preco * quantidade) - desconto;
 	}
-    
+
 	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 
 	}
 
+	public void setPedido(Pedido pedido) {
+		id.setPedido(pedido);
+	}
 
 	public Produto getProduto() {
 		return id.getProduto();
 
+	}
+
+	public void setProduto(Produto produto) {
+		id.setProduto(produto);
 	}
 
 	public ItemPedidoPrimaryKey getId() {
@@ -87,8 +91,6 @@ public class ItemPedido implements Serializable {
 		this.preco = preco;
 	}
 
-	
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -113,6 +115,5 @@ public class ItemPedido implements Serializable {
 			return false;
 		return true;
 	}
-
 
 }

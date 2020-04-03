@@ -12,10 +12,15 @@ import javax.persistence.OneToOne;
 
 import com.brunocandido.cursomc.enuns.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) // Usado para instanciar Tabela e Subclasses
 // no nosso caso PAgamentoBoleto e PagaemntoComCartao
+
+//Anotação para o Jason quando a classe é abstrata
+// onde nela eu digo que eu terei um campo chamado type em cada classe
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type") 
 public abstract class Pagamento implements Serializable { // Abstract para garantir que eu tenho que instanciar uma
 															// classe de Extenção
 

@@ -30,7 +30,7 @@ public class Pedido implements Serializable {
 	private Date instante;
 
 	// @JsonManagedReference //Dentro da Classe Pagamento eu faço um
-	// @JsonBackReference contrapartida a essa anotação
+	//@JsonBackReference contrapartida a essa anotação
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido") // Quando o Id está em outra classe é usada esta anotação
 																// com estes parametros
 																// Chamado de mapeamento bidirecional 1 para 1
@@ -44,7 +44,7 @@ public class Pedido implements Serializable {
 
 	
 	//o pedido e o Pedido pode enchergar o cliente
-	@JsonManagedReference 
+	//@JsonManagedReference 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente; 

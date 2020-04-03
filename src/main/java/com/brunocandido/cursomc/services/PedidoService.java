@@ -1,13 +1,23 @@
 package com.brunocandido.cursomc.services;
 
+import java.util.Date;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.brunocandido.cursomc.domain.ItemPedido;
+import com.brunocandido.cursomc.domain.PagamentoBoleto;
 import com.brunocandido.cursomc.domain.Pedido;
+import com.brunocandido.cursomc.domain.Produto;
+import com.brunocandido.cursomc.enuns.EstadoPagamento;
 import com.brunocandido.cursomc.exceptions.ObjectNotFoundException;
+import com.brunocandido.cursomc.repositories.ItemPedidoRepository;
+import com.brunocandido.cursomc.repositories.PagamentoRepository;
 import com.brunocandido.cursomc.repositories.PedidoRepository;
+import com.brunocandido.cursomc.repositories.ProdutoRepository;
 
 //2º Camada - Chama Repository
 
@@ -18,10 +28,55 @@ public class PedidoService {
 
 	PedidoRepository repo;
 
+	@Autowired
+
+	BoletoService boletoService;
+
+	@Autowired
+
+	PagamentoRepository pagamentoRepository;
+
+	@Autowired
+
+	ProdutoRepository produtoRepository;
+
+	@Autowired
+
+	ItemPedidoRepository itemPedidoRepository;
+
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()));
 	}
 
+	// Caso houvesse uma integragraçao com algum webservice este "cara" não
+	// existiria, este servico iria
+	// integrar com algum webservice para buscar essa informação dentro da Classe
+	// BoletoService
+
+	@Transactional
+	public Pedido insert(Pedido obj) {
+		obj.setId(null);
+		obj.setInstante(new Date());
+		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
+		obj.getPagamento().setPedido(obj);
+		if (obj.getPagamento() instanceof PagamentoBoleto) {
+			PagamentoBoleto pagto = (PagamentoBoleto) obj.getPagamento();
+			boletoService.preencherPagamentoBoleto(pagto, obj.getInstante());
+		}
+		obj = repo.save(obj);
+		pagamentoRepository.save(obj.getPagamento());
+		for (ItemPedido ip : obj.getItens()) {
+			ip.setDesconto(0.0);
+			// ip.setPreco(produtoRepository.findOne(ip.getProduto().getId()).getPreco());
+
+			Optional<Produto> prod = produtoRepository.findById(ip.getProduto().getId());
+			ip.setPreco(prod.get().getPreco());
+
+			ip.setPedido(obj);
+		}
+		itemPedidoRepository.saveAll(obj.getItens());
+		return obj;
+	}
 }
