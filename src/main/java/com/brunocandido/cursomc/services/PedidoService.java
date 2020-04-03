@@ -44,6 +44,10 @@ public class PedidoService {
 
 	ItemPedidoRepository itemPedidoRepository;
 
+	@Autowired
+
+	ClienteServices clienteServices;
+
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
@@ -59,6 +63,9 @@ public class PedidoService {
 	public Pedido insert(Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
+		// Setando o Cliente para Aparecer no POST quando mando imprimir a String da
+		// classe domain.Cliente
+		obj.setCliente(clienteServices.find(obj.getCliente().getId()));
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		obj.getPagamento().setPedido(obj);
 		if (obj.getPagamento() instanceof PagamentoBoleto) {
@@ -72,11 +79,19 @@ public class PedidoService {
 			// ip.setPreco(produtoRepository.findOne(ip.getProduto().getId()).getPreco());
 
 			Optional<Produto> prod = produtoRepository.findById(ip.getProduto().getId());
+			ip.setProduto(prod.get());
 			ip.setPreco(prod.get().getPreco());
+			
+			
 
 			ip.setPedido(obj);
 		}
 		itemPedidoRepository.saveAll(obj.getItens());
+
+		// Quando eu coloco o objeto dentro do println automaticamente ele chama o
+		// toString do objeto
+		// Teste e-mail
+		System.out.println(obj);
 		return obj;
 	}
 }
