@@ -96,7 +96,7 @@ public class PedidoService {
 		// toString do objeto
 		// Teste e-mail
 		System.out.println(obj);
-		emailService.sendOrderConfirmationEmail(obj);
+		emailService.sendOrderConfirmationHtmlEmail(obj);
 		return obj;
 	}
 }
