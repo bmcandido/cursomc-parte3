@@ -47,6 +47,10 @@ public class PedidoService {
 	@Autowired
 
 	ClienteServices clienteServices;
+	
+	@Autowired
+	
+	private EmailService emailService;
 
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
@@ -92,6 +96,7 @@ public class PedidoService {
 		// toString do objeto
 		// Teste e-mail
 		System.out.println(obj);
+		emailService.sendOrderConfirmationEmail(obj);
 		return obj;
 	}
 }

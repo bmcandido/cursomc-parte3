@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.brunocandido.cursomc.services.DBService;
+import com.brunocandido.cursomc.services.EmailService;
+import com.brunocandido.cursomc.services.MockEmailService;
 
 //criado para configurações especificas da aplicação que deseja executar
 //como no exemplo atraves da anotação @Profile eu especifico que essas confifurações só serão rodadas dentro
@@ -23,6 +25,11 @@ public class TestConfig {
 	public boolean instantiateDatabase() throws ParseException {
 		dbService.instantiateTestDatabase();
 		return true;
+	}
+	
+	@Bean
+	public EmailService emailService() {
+		return new MockEmailService();
 	}
 
 }
