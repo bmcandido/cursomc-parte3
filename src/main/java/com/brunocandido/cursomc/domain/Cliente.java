@@ -31,6 +31,8 @@ public class Cliente implements Serializable {
 	private String email;
 	private String cpfCgc;
 	private Integer tipoCliente;
+	@JsonIgnore
+	private String senha;
 
 	// @JsonManagedReference
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) // "cliente" equivale a classe Enderecos declaracao
@@ -53,7 +55,7 @@ public class Cliente implements Serializable {
 
 	}
 
-	public Cliente(Integer id, String nome, String email, String cpfCgc, TipoCliente tipoCliente) {
+	public Cliente(Integer id, String nome, String email, String cpfCgc, TipoCliente tipoCliente, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -125,6 +127,14 @@ public class Cliente implements Serializable {
 
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	@Override

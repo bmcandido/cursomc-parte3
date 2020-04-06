@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.brunocandido.cursomc.domain.Categoria;
@@ -72,6 +73,10 @@ public class DBService {
 
 	@Autowired
 	ItemPedidoRepository itemPedidoRepository;
+	
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 
 	public void instantiateTestDatabase() throws ParseException {
 
@@ -203,9 +208,10 @@ public class DBService {
 		// ****************************************************************************************************************
 		// Dominio do Cliente e Enderecos
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "bruno.macedo@sankhya.com.br", "36378912377", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(null, "Maria Silva", "bruno.macedo@sankhya.com.br", "36378912377", 
+				TipoCliente.PESSOAFISICA, bCryptPasswordEncoder.encode("123"));
 		Cliente cli2 = new Cliente(null, "Junior Carvalho Mendonca", "bmcandido@hotmail.com", "00978867723",
-				TipoCliente.PESSOAFISICA);
+				TipoCliente.PESSOAFISICA,bCryptPasswordEncoder.encode("123"));
 
 		cli1.getTelefone().addAll(Arrays.asList("27363323", "93838393"));
 		cli2.getTelefone().addAll(Arrays.asList("62987776654"));
