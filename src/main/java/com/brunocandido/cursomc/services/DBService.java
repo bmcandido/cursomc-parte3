@@ -203,8 +203,8 @@ public class DBService {
 		// ****************************************************************************************************************
 		// Dominio do Cliente e Enderecos
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
-		Cliente cli2 = new Cliente(null, "Junior Carvalho Mendonca", "bmcandido@gmail.com", "00978867723",
+		Cliente cli1 = new Cliente(null, "Maria Silva", "bruno.macedo@sankhya.com.br", "36378912377", TipoCliente.PESSOAFISICA);
+		Cliente cli2 = new Cliente(null, "Junior Carvalho Mendonca", "bmcandido@hotmail.com", "00978867723",
 				TipoCliente.PESSOAFISICA);
 
 		cli1.getTelefone().addAll(Arrays.asList("27363323", "93838393"));
