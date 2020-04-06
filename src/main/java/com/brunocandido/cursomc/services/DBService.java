@@ -22,6 +22,7 @@ import com.brunocandido.cursomc.domain.Pedido;
 import com.brunocandido.cursomc.domain.Produto;
 import com.brunocandido.cursomc.domain.TipoProduto;
 import com.brunocandido.cursomc.enuns.EstadoPagamento;
+import com.brunocandido.cursomc.enuns.Perfil;
 import com.brunocandido.cursomc.enuns.TipoCliente;
 import com.brunocandido.cursomc.repositories.CategoriaRepository;
 import com.brunocandido.cursomc.repositories.CidadeRepository;
@@ -208,28 +209,37 @@ public class DBService {
 		// ****************************************************************************************************************
 		// Dominio do Cliente e Enderecos
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "bruno.macedo@sankhya.com.br", "36378912377", 
+		Cliente cli1 = new Cliente(null, "Maria Silva", "bruno.macedo@sankhya.com.br", "37517634062", 
 				TipoCliente.PESSOAFISICA, bCryptPasswordEncoder.encode("123"));
-		Cliente cli2 = new Cliente(null, "Junior Carvalho Mendonca", "bmcandido@hotmail.com", "00978867723",
+		Cliente cli2 = new Cliente(null, "Junior Carvalho Mendonca", "bmcandido@hotmail.com", "62093828006",
 				TipoCliente.PESSOAFISICA,bCryptPasswordEncoder.encode("123"));
+		
+		Cliente cli3 = new Cliente(null, "Bob Marley", "bmcandido14@gmail.com", "12312925044",
+				TipoCliente.PESSOAFISICA,bCryptPasswordEncoder.encode("123"));
+		cli3.addPerfil(Perfil.ADMIN);
 
 		cli1.getTelefone().addAll(Arrays.asList("27363323", "93838393"));
 		cli2.getTelefone().addAll(Arrays.asList("62987776654"));
+		cli3.getTelefone().addAll(Arrays.asList("629877334654"));
 
 		Enderecos end1 = new Enderecos(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, cc1);
 		Enderecos end2 = new Enderecos(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, cc2);
 		Enderecos end3 = new Enderecos(null, "Rua C-75", "S/N", "Apto 2020", "Centro", "76100000", cli2, cc0);
+		Enderecos end4 = new Enderecos(null, "Rua Serio", "S/N", "Apto 999", "Centro", "76100000", cli3, cc0);
+		
 		cli1.getEnderecos().addAll(Arrays.asList(end1, end2));
 		cli2.getEnderecos().addAll(Arrays.asList(end3));
+		cli3.getEnderecos().addAll(Arrays.asList(end4));
 
 		// ****************************************************************************************************************
 		// Repository tipo de Produtos
 
 		cli1.getEnderecos().addAll(Arrays.asList(end1, end2));
 		cli2.getEnderecos().addAll(Arrays.asList(end3));
+		cli3.getEnderecos().addAll(Arrays.asList(end4));
 
-		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
-		enderecosRepository.saveAll(Arrays.asList(end1, end2, end3));
+		clienteRepository.saveAll(Arrays.asList(cli1, cli2,cli3));
+		enderecosRepository.saveAll(Arrays.asList(end1, end2, end3,end4));
 
 		// ****************************************************************************************************************
 		// Dominio Pedido / Pagamento
