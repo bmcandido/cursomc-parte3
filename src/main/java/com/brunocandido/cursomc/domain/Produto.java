@@ -31,10 +31,11 @@ public class Produto implements Serializable {
 	private String complemento;
     
 	@JsonIgnore
-	//@JsonBackReference
 	@ManyToMany
-	@JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id")) // Estes
-																																					// ID
+	@JoinTable(name = "PRODUTO_CATEGORIA",
+		joinColumns = @JoinColumn(name = "produto_id"),
+		inverseJoinColumns = @JoinColumn(name = "categoria_id")
+	)																																			// ID
 	// Tabela Temporaria de Ligação
 	private List<Categoria> categorias = new ArrayList<>();
      
