@@ -4,20 +4,25 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.brunocandido.cursomc.domain.Cliente;
 import com.brunocandido.cursomc.domain.ItemPedido;
 import com.brunocandido.cursomc.domain.PagamentoBoleto;
 import com.brunocandido.cursomc.domain.Pedido;
 import com.brunocandido.cursomc.domain.Produto;
 import com.brunocandido.cursomc.enuns.EstadoPagamento;
+import com.brunocandido.cursomc.exceptions.AuthorizationException;
 import com.brunocandido.cursomc.exceptions.ObjectNotFoundException;
 import com.brunocandido.cursomc.repositories.ItemPedidoRepository;
 import com.brunocandido.cursomc.repositories.PagamentoRepository;
 import com.brunocandido.cursomc.repositories.PedidoRepository;
 import com.brunocandido.cursomc.repositories.ProdutoRepository;
-
+import com.brunocandido.cursomc.security.UserSpringSecurity;
 
 //2º Camada - Chama Repository
 
@@ -97,7 +102,16 @@ public class PedidoService {
 		emailService.sendOrderConfirmationHtmlEmail(obj);
 		return obj;
 	}
-	
 
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSpringSecurity user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+
+		Cliente cliente = clienteServices.find(user.getId());
+		return repo.findByCliente(cliente, pageRequest);
+	}
 
 }
