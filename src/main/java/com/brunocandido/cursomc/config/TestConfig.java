@@ -20,7 +20,7 @@ public class TestConfig {
 
 	@Autowired
 	private DBService dbService;
-
+	
 	@Bean
 	public boolean instantiateDatabase() throws ParseException {
 		dbService.instantiateTestDatabase();
@@ -31,5 +31,4 @@ public class TestConfig {
 	public EmailService emailService() {
 		return new MockEmailService();
 	}
-
 }

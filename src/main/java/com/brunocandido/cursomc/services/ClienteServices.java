@@ -80,6 +80,8 @@ public class ClienteServices {
 	}
 
 	public Cliente fromDTO(ClienteNewDTO objDto) {
+		
+		//Para a senha foi aplicado o bCryptPasswordEncoder para encriptografar a senha
 		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfCgc(),
 				TipoCliente.toEnum(objDto.getTipoCliente()), bCryptPasswordEncoder.encode(objDto.getSenha()));
 		Cidades cid = new Cidades(objDto.getCidadeId(), null, null);

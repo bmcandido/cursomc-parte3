@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,9 +32,11 @@ public class Cliente implements Serializable {
 	private Integer id;
 
 	private String nome;
+	@Column(unique=true)
 	private String email;
 	private String cpfCgc;
 	private Integer tipoCliente;
+	
 	@JsonIgnore
 	private String senha;
 
@@ -69,7 +72,9 @@ public class Cliente implements Serializable {
 		this.email = email;
 		this.cpfCgc = cpfCgc;
 		this.tipoCliente = (tipoCliente == null) ? null : tipoCliente.getCod();
+		this.senha=senha;
 		addPerfil(Perfil.CLIENTE);
+		
 	}
 
 	public Integer getId() {
