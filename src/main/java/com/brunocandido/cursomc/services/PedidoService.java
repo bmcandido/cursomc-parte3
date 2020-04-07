@@ -3,10 +3,9 @@ package com.brunocandido.cursomc.services;
 import java.util.Date;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.brunocandido.cursomc.domain.ItemPedido;
 import com.brunocandido.cursomc.domain.PagamentoBoleto;
@@ -18,6 +17,7 @@ import com.brunocandido.cursomc.repositories.ItemPedidoRepository;
 import com.brunocandido.cursomc.repositories.PagamentoRepository;
 import com.brunocandido.cursomc.repositories.PedidoRepository;
 import com.brunocandido.cursomc.repositories.ProdutoRepository;
+
 
 //2º Camada - Chama Repository
 
@@ -47,9 +47,9 @@ public class PedidoService {
 	@Autowired
 
 	ClienteServices clienteServices;
-	
+
 	@Autowired
-	
+
 	private EmailService emailService;
 
 	public Pedido find(Integer id) {
@@ -85,8 +85,6 @@ public class PedidoService {
 			Optional<Produto> prod = produtoRepository.findById(ip.getProduto().getId());
 			ip.setProduto(prod.get());
 			ip.setPreco(prod.get().getPreco());
-			
-			
 
 			ip.setPedido(obj);
 		}
@@ -99,4 +97,7 @@ public class PedidoService {
 		emailService.sendOrderConfirmationHtmlEmail(obj);
 		return obj;
 	}
+	
+
+
 }

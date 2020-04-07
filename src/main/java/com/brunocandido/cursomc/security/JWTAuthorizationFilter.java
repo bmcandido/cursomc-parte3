@@ -17,16 +17,15 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
 	private JWTUtil jwtUtil;
-
+	
 	private UserDetailsService userDetailsService;
-
-	public JWTAuthorizationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil,
-			UserDetailsService userDetailsService) {
+	
+	public JWTAuthorizationFilter(AuthenticationManager authenticationManager, 
+			JWTUtil jwtUtil, UserDetailsService userDetailsService) {
 		super(authenticationManager);
 		this.jwtUtil = jwtUtil;
 		this.userDetailsService = userDetailsService;
 	}
-
 	// Este metodo é responsavel por pegar o Token validar se o filtro existe
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -36,7 +35,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
 		// getAuthentication(header.substring(7)); retira o Bearer e traz somente o
 		// token
-		if (header != null && header.startsWith("Bearer ")) {
+		if (header != null && header.startsWith("Bearer "))  {
 			UsernamePasswordAuthenticationToken auth = getAuthentication(header.substring(7));
 			if (auth != null) {
 				// Se for diferente de nulo o sistema busca a função

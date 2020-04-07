@@ -17,11 +17,14 @@ import com.brunocandido.cursomc.domain.Cliente;
 import com.brunocandido.cursomc.domain.Enderecos;
 import com.brunocandido.cursomc.dto.ClienteDTO;
 import com.brunocandido.cursomc.dto.ClienteNewDTO;
+import com.brunocandido.cursomc.enuns.Perfil;
 import com.brunocandido.cursomc.enuns.TipoCliente;
+import com.brunocandido.cursomc.exceptions.AuthorizationException;
 import com.brunocandido.cursomc.exceptions.DataIntegrityException;
 import com.brunocandido.cursomc.exceptions.ObjectNotFoundException;
 import com.brunocandido.cursomc.repositories.ClienteRepository;
 import com.brunocandido.cursomc.repositories.EnderecosRepository;
+import com.brunocandido.cursomc.security.UserSpringSecurity;
 
 //2º Camada - Chama Repository
 
@@ -38,6 +41,11 @@ public class ClienteServices {
 	private EnderecosRepository enderecoRepository;
 
 	public Cliente find(Integer id) {
+		UserSpringSecurity user = UserService.authenticated();
+		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
@@ -80,8 +88,8 @@ public class ClienteServices {
 	}
 
 	public Cliente fromDTO(ClienteNewDTO objDto) {
-		
-		//Para a senha foi aplicado o bCryptPasswordEncoder para encriptografar a senha
+
+		// Para a senha foi aplicado o bCryptPasswordEncoder para encriptografar a senha
 		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfCgc(),
 				TipoCliente.toEnum(objDto.getTipoCliente()), bCryptPasswordEncoder.encode(objDto.getSenha()));
 		Cidades cid = new Cidades(objDto.getCidadeId(), null, null);
