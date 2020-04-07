@@ -33,6 +33,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		this.jwtUtil = jwtUtil;
 	}
 
+	
+	//Este metodo é responsavel por pegar o Token Gerado pelo Jason e autenticar
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
 			throws AuthenticationException {
